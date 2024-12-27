@@ -3,7 +3,18 @@
 echo "Starting PHP project..."
 
 BACKEND_PORT=8000
-BACKEND_PATH="./back/public"
+COMPOSER_PATH="./back"
+BACKEND_PATH="./public"
+
+cd "$COMPOSER_PATH"
+if [ -f composer.json ]; then
+  if ! composer install; then
+    echo "Error installing dependencies. Exiting."
+    exit 1
+  fi
+else
+  echo "composer.json not found. Skipping composer install."
+fi
 
 if [ ! -d "$BACKEND_PATH" ]; then
   echo "Error: Directory '$BACKEND_PATH' does not exist."
